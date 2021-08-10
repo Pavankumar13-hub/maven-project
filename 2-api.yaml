@@ -1,6 +1,10 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Deploy a API service into an ECS cluster behind a private load balancer.
 Parameters:
+  CodeKey:
+    Type: String
+    Default: aws-kinesis-analytics-java-apps-1.0.jar
+
   ImageUrl:
     Type: String
     Default: testingimage
@@ -9,14 +13,24 @@ Parameters:
     Default: testevn
 Conditions:
   HasNot:
-    Fn::Equals: [ 'a', 'b' ]
-
+    Fn::Equals: ["a", "b"]
 Resources:
+  #S3Bucket:
+  #Type: AWS::S3::Bucket
+  #Properties:
+  #AccessControl: PublicRead
+  #WebsiteConfiguration:
+  #IndexDocument: index.html
+  #ErrorDocument: error.html
+  #DeletionPolicy: Retain
   NullResource:
-    Type: 'Custom::NullResource'
+    Type: "Custom::NullResource"
     Condition: HasNot
+
 Outputs:
   MyOutput:
     Value: !Ref ImageUrl
   env:
     Value: !Ref Environment
+  CodeKey:
+    Value: !Ref CodeKey
